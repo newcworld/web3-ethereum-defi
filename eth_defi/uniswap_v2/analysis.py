@@ -202,8 +202,8 @@ def analyse_trade_by_receipt(web3: Web3, uniswap: UniswapV2Deployment, tx: dict,
         price=price,
         amount_in_decimals=in_token_details.decimals,
         amount_out_decimals=out_token_details.decimals,
-        token0=None,
-        token1=None,
+        token0=in_token_details,
+        token1=out_token_details,
         lp_fee_paid=lp_fee_paid,
     )
 

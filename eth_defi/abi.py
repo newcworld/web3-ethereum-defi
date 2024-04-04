@@ -101,16 +101,19 @@ def get_contract(
     abi = contract_interface["abi"]
 
     if bytecode is None:
-        bytecode = contract_interface["bytecode"]
+        if "bytecode" in contract_interface:
+            bytecode = contract_interface["bytecode"]
 
-        if type(bytecode) == dict:
-            # Sol 0.8 / Forge?
-            # Contains keys object, sourceMap, linkReferences
-            bytecode = bytecode["object"]
+            if type(bytecode) == dict:
+                # Sol 0.8 / Forge?
+                # Contains keys object, sourceMap, linkReferences
+                bytecode = bytecode["object"]
+            else:
+                # Sol 0.6 / legacy
+                # Bytecode hex is directly in the key.
+                pass
         else:
-            # Sol 0.6 / legacy
-            # Bytecode hex is directly in the key.
-            pass
+            bytecode = None
 
     Contract = web3.eth.contract(abi=abi, bytecode=bytecode)
     return Contract
